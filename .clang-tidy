@@ -1,0 +1,53 @@
+Checks: >
+  clang-diagnostic-*,
+  clang-analyzer-*,
+  modernize-use-nullptr,
+  modernize-use-override,
+  modernize-use-default-member-init,
+  modernize-use-emplace,
+  modernize-avoid-bind,
+  modernize-use-auto,
+  modernize-use-using,
+  readability-identifier-naming,
+
+  readability-const-return-type,
+  readability-redundant-member-init,
+  performance-unnecessary-copy-initialization,
+  performance-unnecessary-value-param,
+  performance-move-const-arg,
+  bugprone-use-after-move,
+  bugprone-misplaced-operator-in-strlen-in-alloc
+
+WarningsAsErrors: ''
+HeaderFilterRegex: 'src/.*'
+
+CheckOptions:
+  # Classes → PascalCase
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.StructCase
+    value: CamelCase
+
+  # Public methods → snake_case
+  - key: readability-identifier-naming.MethodCase
+    value: lower_case
+
+  # Private member variables → snake_case with trailing underscore
+  - key: readability-identifier-naming.MemberCase
+    value: lower_case
+  - key: readability-identifier-naming.PrivateMemberSuffix
+    value: '_'
+
+  # Local variables → snake_case
+  - key: readability-identifier-naming.LocalVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+
+  # Constants/Enums → UPPER_CASE
+  - key: readability-identifier-naming.EnumConstantCase
+    value: UPPER_CASE
+
+  # Function parameters passed by value (copy) → warn
+  - key: performance-unnecessary-value-param.AllowedTypes
+    value: ''

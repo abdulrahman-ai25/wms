@@ -1,0 +1,66 @@
+# Clang-Format Configuration for WMS Project
+# Based on Google C++ Style Guide with minor customizations
+
+BasedOnStyle: Google
+
+# Indentation
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+AccessModifierOffset: -4
+
+# Line Length
+ColumnLimit: 120
+
+# Braces
+BreakBeforeBraces: Allman
+
+# Classes
+IndentAccessModifiers: false
+
+# Spaces
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesInAngles: false
+SpacesInContainerLiterals: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+
+# Alignment
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignTrailingComments: true
+
+# Includes
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
+IncludeCategories:
+  # Standard library headers
+  - Regex: '^<[a-z_]+>$'
+    Priority: 3
+  # Third-party or system headers
+  - Regex: '^<'
+    Priority: 2
+  # Project headers
+  - Regex: '^"'
+    Priority: 1
+
+# Pointers & References
+PointerAlignment: Left
+ReferenceAlignment: Left
+
+# Empty Lines
+MaxEmptyLinesToKeep: 1
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# Short Functions
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+
+# Constructor Initializer
+BreakConstructorInitializers: BeforeColon
+ConstructorInitializerIndentWidth: 4
+
+# Trailing commas
+InsertTrailingCommas: None

@@ -1,0 +1,13 @@
+#pragma once
+
+enum class ServiceStatus
+{
+    SUCCESS,
+    USER_NOT_FOUND,
+    INVALID_PASSWORD,
+    USER_ALREADY_EXISTS,
+    USER_ALREADY_LOGGED_IN,
+    USER_NOT_LOGGED_IN,
+    PERMISSION_DENIED,
+    INVALID_INPUT,
+};
