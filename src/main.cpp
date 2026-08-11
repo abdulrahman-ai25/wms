@@ -51,7 +51,8 @@ int main()
     Session session;
     AuthService auth_service(usersrepo, session);
     UsersService users_service(usersrepo,auth_service);
-
+    if(usersrepo.is_empty())
+        auth_service.register_user("admin", "123", Role::ADMIN);
     // // auth.register_user("admin", "123", Role::ADMIN);
     // auth.login("admin", "1234");
 

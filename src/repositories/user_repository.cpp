@@ -113,3 +113,12 @@ bool UserRepository::exists_by_username(const std::string& username)
 
     return found;
 }
+
+bool UserRepository::is_empty()
+{
+    int count=0;
+    database_.query("select count(*) from users;",{},[&count](sqlite3_stmt* stmt){
+        count=sqlite3_column_int(stmt,0);
+    });
+    return count==0;
+}

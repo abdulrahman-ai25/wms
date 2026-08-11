@@ -30,4 +30,5 @@ public:
     bool remove(int id);
 
     bool exists_by_username(const std::string& username);
+    bool is_empty();
 };
