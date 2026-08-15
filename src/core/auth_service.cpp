@@ -12,13 +12,13 @@ ServiceStatus AuthService::register_user(const std::string& username,
 {
     if (user_repository_.exists_by_username(username))
     {
-        return ServiceStatus::USER_ALREADY_EXISTS;
+        return ServiceStatus::ALREADY_EXISTS;
     }
 
     std::string hashed_password = hash_password(plain_password);
     User new_user(username, hashed_password, role);
 
-    return user_repository_.create(new_user) ? ServiceStatus::SUCCESS : ServiceStatus::USER_ALREADY_EXISTS;
+    return user_repository_.create(new_user) ? ServiceStatus::SUCCESS : ServiceStatus::ALREADY_EXISTS;
 }
 
 ServiceStatus AuthService::login(const std::string& username, const std::string& plain_password)
@@ -32,7 +32,7 @@ ServiceStatus AuthService::login(const std::string& username, const std::string&
 
     if (!found_user.has_value())
     {
-        return ServiceStatus::USER_NOT_FOUND;
+        return ServiceStatus::NOT_FOUND;
     }
 
     if (!verify_password(plain_password, found_user->get_password_hash()))
@@ -65,7 +65,7 @@ ServiceStatus AuthService::change_password(int id, const std::string& old_passwo
     std::optional<User> found_user = user_repository_.find_by_id(id);
     if (!found_user.has_value())
     {
-        return ServiceStatus::USER_NOT_FOUND;
+        return ServiceStatus::NOT_FOUND;
     }
 
     if (!verify_password(old_password, found_user->get_password_hash()))

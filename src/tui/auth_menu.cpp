@@ -38,7 +38,7 @@ MenuResult AuthMenu::login_menu(){
     {
     case ServiceStatus::SUCCESS:
         return MenuResult::SUBMIT;
-    case ServiceStatus::USER_NOT_FOUND:
+    case ServiceStatus::NOT_FOUND:
         std::cout << "User not found" << std::endl;
         return MenuResult::BACK;
     case ServiceStatus::INVALID_PASSWORD:

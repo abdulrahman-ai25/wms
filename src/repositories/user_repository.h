@@ -1,7 +1,7 @@
 #pragma once
 
-#include "user.h"
 #include "database.h"
+#include "user.h"
 
 #include <optional>
 #include <string>
@@ -17,13 +17,13 @@ private:
 public:
     explicit UserRepository(Database& database);
 
-    bool create(const User& user);
-
     std::optional<User> find_by_id(int id);
 
     std::optional<User> find_by_username(const std::string& username);
 
     std::vector<User> get_all();
+
+    bool create(const User& user);
 
     bool update(const User& user);
 

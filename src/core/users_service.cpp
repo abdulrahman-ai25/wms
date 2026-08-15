@@ -39,7 +39,7 @@ ServiceStatus UsersService::update_role(Role caller_role, int id, Role new_role)
     std::optional<User> found_user = user_repository_.find_by_id(id);
     if (!found_user.has_value())
     {
-        return ServiceStatus::USER_NOT_FOUND;
+        return ServiceStatus::NOT_FOUND;
     }
     found_user->set_role(new_role);
     user_repository_.update(found_user.value());
@@ -54,7 +54,7 @@ ServiceStatus UsersService::delete_user(Role caller_role, int id)
     }
     if (!user_repository_.find_by_id(id).has_value())
     {
-        return ServiceStatus::USER_NOT_FOUND;
+        return ServiceStatus::NOT_FOUND;
     }
     user_repository_.remove(id);
     return ServiceStatus::SUCCESS;
@@ -69,11 +69,11 @@ ServiceStatus UsersService::update_username(Role caller_role, int id, const std:
     std::optional<User> found_user = user_repository_.find_by_id(id);
     if (!found_user.has_value())
     {
-        return ServiceStatus::USER_NOT_FOUND;
+        return ServiceStatus::NOT_FOUND;
     }
     if (user_repository_.exists_by_username(new_username))
     {
-        return ServiceStatus::USER_ALREADY_EXISTS;
+        return ServiceStatus::ALREADY_EXISTS;
     }
     found_user->set_username(new_username);
     user_repository_.update(found_user.value());

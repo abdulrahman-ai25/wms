@@ -24,11 +24,11 @@ endif()
 # 2. Main Executable Target
 add_executable(${PROJECT_NAME} 
     src/main.cpp
-    src/tui/app.cpp
-)
-
-# Include paths for all module headers
-target_include_directories(${PROJECT_NAME} PRIVATE 
+   
+    )
+    
+    # Include paths for all module headers
+    target_include_directories(${PROJECT_NAME} PRIVATE 
     src 
     src/database 
     src/models 
@@ -37,7 +37,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "${PICOSHA2_DIR}"
     src/core
     src/tui
-)
+    )
 
 # 3. Add Sources per Module using target_sources
 
@@ -45,23 +45,27 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 # --- Module: Repositories ---
 target_sources(${PROJECT_NAME} PRIVATE
     src/repositories/user_repository.cpp
+    src/repositories/prodcut_repository.cpp
+    src/repositories/category_repository.cpp
 )
 
 # --- Module: Database ---
 target_sources(${PROJECT_NAME} PRIVATE
     src/database/database.cpp
     src/database/migration_manager.cpp
-)
-
+    )
+    
 # --- Module: Core 
 target_sources(${PROJECT_NAME} PRIVATE
-    src/core/auth_service.cpp
+src/core/auth_service.cpp
     src/core/session.cpp
     src/core/users_service.cpp
-)
+    src/core/category_service.cpp
+    )
 
 # --- Module: TUI ---
 target_sources(${PROJECT_NAME} PRIVATE
+    src/tui/app.cpp
     src/tui/auth_menu.cpp
     src/tui/users_menu.cpp
 )

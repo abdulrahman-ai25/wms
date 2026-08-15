@@ -104,7 +104,7 @@ MenuResult UsersMenu::add_user()
 
     if (status == ServiceStatus::SUCCESS)
         std::cout << "User added successfully" << std::endl;
-    else if (status == ServiceStatus::USER_ALREADY_EXISTS)
+    else if (status == ServiceStatus::ALREADY_EXISTS)
         std::cout << "Username already exists" << std::endl;
     else if (status == ServiceStatus::PERMISSION_DENIED)
         std::cout << "Permission denied" << std::endl;
