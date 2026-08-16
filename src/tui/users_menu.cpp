@@ -49,21 +49,20 @@ MenuResult UsersMenu::run()
     }
 }
 
-MenuResult UsersMenu::list_users()
+void UsersMenu::list_users()
 {
     Role role = session_.get_current_user().get_role();
     std::vector<User> users = users_service_.get_all_users(role);
     if (users.empty())
     {
         std::cout << "No users found or permission denied." << std::endl;
-        return MenuResult::BACK;
+        return;
     }
     for (const auto& user : users)
         std::cout << user.to_string() << std::endl;
-    return MenuResult::SUBMIT;
 }
 
-MenuResult UsersMenu::show_user()
+void UsersMenu::show_user()
 {
     int id;
     std::cout << "Enter user id: ";
@@ -78,10 +77,9 @@ MenuResult UsersMenu::show_user()
     {
         std::cout << "User not found" << std::endl;
     }
-    return MenuResult::SUBMIT;
 }
 
-MenuResult UsersMenu::add_user()
+void UsersMenu::add_user()
 {
     std::string username, password;
     int role_choice;
@@ -110,11 +108,9 @@ MenuResult UsersMenu::add_user()
         std::cout << "Permission denied" << std::endl;
     else
         std::cout << "Failed to add user" << std::endl;
-
-    return MenuResult::SUBMIT;
 }
 
-MenuResult UsersMenu::delete_user()
+void UsersMenu::delete_user()
 {
     int id;
     std::cout << "Enter user id: ";
@@ -127,10 +123,9 @@ MenuResult UsersMenu::delete_user()
         std::cout << "Permission denied" << std::endl;
     else
         std::cout << "User not found" << std::endl;
-    return MenuResult::SUBMIT;
 }
 
-MenuResult UsersMenu::update_role()
+void UsersMenu::update_role()
 {
     int id;
     Role new_role;
@@ -151,7 +146,7 @@ MenuResult UsersMenu::update_role()
         break;
     default:
         std::cout << "Invalid choice" << std::endl;
-        return MenuResult::BACK;
+        return;
     }
 
     Role role = session_.get_current_user().get_role();
@@ -162,10 +157,9 @@ MenuResult UsersMenu::update_role()
         std::cout << "Permission denied" << std::endl;
     else
         std::cout << "User not found" << std::endl;
-    return MenuResult::SUBMIT;
 }
 
-MenuResult UsersMenu::update_username()
+void UsersMenu::update_username()
 {
     int id;
     std::string new_username;
@@ -181,5 +175,4 @@ MenuResult UsersMenu::update_username()
         std::cout << "Permission denied" << std::endl;
     else
         std::cout << "User not found or username taken" << std::endl;
-    return MenuResult::SUBMIT;
 }

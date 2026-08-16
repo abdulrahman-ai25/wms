@@ -8,15 +8,15 @@ class UsersMenu : public IMenu {
 public:
     UsersMenu(UsersService& users_service, Session& session);
     MenuResult run() override;
+    std::string get_title() const override { return "Users"; }
 
 private:
-    MenuResult list_users();
-    MenuResult show_user();
-    MenuResult add_user();
-    MenuResult delete_user();
-    MenuResult update_role();
-    MenuResult update_username();
-
+    void list_users();
+    void show_user();
+    void add_user();
+    void delete_user();
+    void update_role();
+    void update_username();
     UsersService& users_service_;
     Session& session_;
 };

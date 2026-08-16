@@ -68,6 +68,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/tui/app.cpp
     src/tui/auth_menu.cpp
     src/tui/users_menu.cpp
+    src/tui/category_menu.cpp
 )
 
 # 4. Link Libraries

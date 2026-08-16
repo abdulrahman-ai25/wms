@@ -1,6 +1,7 @@
 #include "app.h"
 #include "auth_menu.h"
 #include "auth_service.h"
+#include "category_service.h"
 #include "core/users_service.h"
 #include "database.h"
 #include "i_menu.h"
@@ -8,6 +9,7 @@
 #include "session.h"
 #include "tui/users_menu.h"
 #include "user_repository.h"
+#include "category_menu.h"
 
 #include <iostream>
 #include <string>
@@ -43,6 +45,7 @@ int main()
 #pragma region repos
 
     UserRepository usersrepo(db);
+    CategoryRepository categoryrepo(db);
 
 #pragma endregion
 
@@ -53,6 +56,8 @@ int main()
     UsersService users_service(usersrepo,auth_service);
     if(usersrepo.is_empty())
         auth_service.register_user("admin", "123", Role::ADMIN);
+
+    CategoryService category_service(categoryrepo);
     // // auth.register_user("admin", "123", Role::ADMIN);
     // auth.login("admin", "1234");
 
@@ -64,7 +69,8 @@ int main()
 
     AuthMenu auth_menu(auth_service);
     UsersMenu users_menu(users_service, session);
-    std::vector<IMenu*> menus = {&auth_menu, &users_menu};
+    CategoryMenu category_menu(category_service);
+    std::vector<IMenu*> menus = {&auth_menu, &users_menu, &category_menu};
 
     App app(session, menus);
 

@@ -6,6 +6,7 @@ class AuthMenu:public IMenu{
 public:
     AuthMenu( AuthService& auth_service);
     MenuResult run() override;
+    std::string get_title() const override { return "Auth"; }
 private:
 
     MenuResult login_menu() ;

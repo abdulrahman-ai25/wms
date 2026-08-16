@@ -1,11 +1,9 @@
 
 #include "app.h"
-
+#include "menu_result.h"
 #include "session.h"
-
 #include <iostream>
 #include <utility>
-
 
 App::App(Session& session, std::vector<IMenu*> menus) : session_(session), menus_(std::move(menus)) {}
 
@@ -19,10 +17,11 @@ int App::run()
     while (true)
     {
         std::cout << "Welcome to the Warehouse Management System" << std::endl;
+
         if (!session_.is_logged_in())
         {
-            MenuResult menu_result = menus_[0]->run();  // 0 AuthMenu
-            if (menu_result == MenuResult::EXIT)
+            MenuResult result = menus_[0]->run();
+            if (result == MenuResult::EXIT)
             {
                 std::cout << "goodbye.." << std::endl;
                 break;
@@ -31,28 +30,52 @@ int App::run()
         else
         {
             std::cout << "you are logged in as " << session_.get_current_user().to_string() << std::endl;
-            std::cout << "1. users" << std::endl;
-            std::cout << "2. logout" << std::endl;
-            std::cout << "0. exit" << std::endl;
 
-            int choice;
-            std::cin >> choice;
-            switch (choice)
+            for (size_t i = 1; i < menus_.size(); ++i)
+                std::cout << i << ". " << menus_[i]->get_title() << std::endl;
+            std::cout << "L. Logout" << std::endl;
+            std::cout << "0. Exit" << std::endl;
+
+            std::string input;
+            std::cin >> input;
+
+            if (input == "0")
             {
-                case 1:
-                    menus_[1]->run();
-                    break;
-                case 2:
-                    session_.logout();
-                    break;
-                case 0:
-                    std::cout << "goodbye.." << std::endl;
-                    return 0;
-                default:
+                std::cout << "goodbye.." << std::endl;
+                break;
+            }
+            else if (input == "L" || input == "l")
+            {
+                session_.logout();
+            }
+            else
+            {
+                try
+                {
+                    size_t choice = std::stoul(input);
+                    if (choice >= 1 && choice < menus_.size())
+                    {
+                        MenuResult result = menus_[choice]->run();
+                        if (result == MenuResult::BACK)
+                        {
+                            continue;
+                        }
+                        else if (result == MenuResult::EXIT)
+                        {
+                            std::cout << "goodbye.." << std::endl;
+                            break;
+                        }
+                    }
+                    else
+                        std::cout << "Invalid choice" << std::endl;
+                }
+                catch (...)
+                {
                     std::cout << "Invalid choice" << std::endl;
-                    break;
+                }
             }
         }
     }
     return 0;
 }
+

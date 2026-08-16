@@ -2,13 +2,17 @@
 
 #include "i_menu.h"
 #include "session.h"
+
 #include <vector>
 
-class App{
+
+class App
+{
 public:
-    App(Session& session,std::vector<IMenu*> menus);
+    App(Session& session, std::vector<IMenu*> menus);
     int run();
     void clear_screen();
+
 
 private:
     Session& session_;
