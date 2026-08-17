@@ -20,6 +20,10 @@ if(EXISTS "${SQLITE3_DIR}/sqlite3.c")
     add_library(sqlite3_lib STATIC "${SQLITE3_DIR}/sqlite3.c")
     target_include_directories(sqlite3_lib PUBLIC "${SQLITE3_DIR}")
 endif()
+if(EXISTS "${PICOSHA2_DIR}/picosha2.h")
+    add_library(picosha2_lib INTERFACE)
+    target_include_directories(picosha2_lib INTERFACE "${PICOSHA2_DIR}")
+endif()
 
 # 2. Main Executable Target
 add_executable(${PROJECT_NAME} 
@@ -33,9 +37,7 @@ add_executable(${PROJECT_NAME}
     src/database 
     src/models 
     src/repositories 
-    "${SQLITE3_DIR}"
-    "${PICOSHA2_DIR}"
-    src/core
+    src/services
     src/tui
     )
 
@@ -55,12 +57,12 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/database/migration_manager.cpp
     )
     
-# --- Module: Core 
+# --- Module: services
 target_sources(${PROJECT_NAME} PRIVATE
-src/core/auth_service.cpp
-    src/core/session.cpp
-    src/core/users_service.cpp
-    src/core/category_service.cpp
+src/services/auth_service.cpp
+    src/services/session.cpp
+    src/services/users_service.cpp
+    src/services/category_service.cpp
     )
 
 # --- Module: TUI ---
@@ -74,6 +76,9 @@ target_sources(${PROJECT_NAME} PRIVATE
 # 4. Link Libraries
 if(TARGET sqlite3_lib)
     target_link_libraries(${PROJECT_NAME} PRIVATE sqlite3_lib)
+endif()
+if(TARGET picosha2_lib)
+    target_link_libraries(${PROJECT_NAME} PRIVATE picosha2_lib)
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "WMS")
