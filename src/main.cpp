@@ -10,6 +10,7 @@
 #include "users_menu.h"
 #include "user_repository.h"
 #include "category_menu.h"
+#include "product_menu.h"
 
 #include <iostream>
 #include <string>
@@ -46,6 +47,7 @@ int main()
 
     UserRepository usersrepo(db);
     CategoryRepository categoryrepo(db);
+    ProductRepository productrepo(db);
 
 #pragma endregion
 
@@ -58,6 +60,7 @@ int main()
         auth_service.register_user("admin", "123", Role::ADMIN);
 
     CategoryService category_service(categoryrepo);
+    ProductService product_service(productrepo, categoryrepo);
     // // auth.register_user("admin", "123", Role::ADMIN);
     // auth.login("admin", "1234");
 
@@ -70,7 +73,8 @@ int main()
     AuthMenu auth_menu(auth_service);
     UsersMenu users_menu(users_service, session);
     CategoryMenu category_menu(category_service);
-    std::vector<IMenu*> menus = {&auth_menu, &users_menu, &category_menu};
+    ProductMenu product_menu(product_service);
+    std::vector<IMenu*> menus = {&auth_menu, &users_menu, &category_menu, &product_menu};
 
     App app(session, menus);
 

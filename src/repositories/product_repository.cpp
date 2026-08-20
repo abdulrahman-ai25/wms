@@ -40,22 +40,24 @@ std::optional<Product> ProductRepository::find_by_id(int id) {
 
     return result;
 }
-std::optional<Product> ProductRepository::find_by_name(const std::string& name)
+
+std::vector<Product> ProductRepository::find_by_name(const std::string& name)
 {
-    std::optional<Product> result;
+    std::vector<Product> products;
+    std::string pattern = "%" + name + "%";
 
     database_.query(
         "SELECT p.id, p.name, p.category_id, p.quantity, p.minimum_quantity, p.default_selling_price, p.description, c.name "
         "FROM products p "
         "LEFT JOIN categories c ON p.category_id = c.id "
-        "WHERE p.name = ?;",
-        {name},
-        [&result](sqlite3_stmt* stmt) {
-            result = ProductRepository::map_row(stmt);
+        "WHERE p.name LIKE ?;",
+        {pattern},
+        [&products](sqlite3_stmt* stmt) {
+            products.push_back(ProductRepository::map_row(stmt));
         }
     );
 
-    return result;
+    return products;
 }
 
 std::vector<Product> ProductRepository::get_all()
@@ -136,6 +138,7 @@ bool ProductRepository::create(const Product& product)
         {product.get_name(), product.get_category_id(), product.get_quantity(), product.get_minimum_quantity(), product.get_default_selling_price(), product.get_description()}
     );
 }
+
 bool ProductRepository::update(const Product& product)
 {
     if (!product.get_id().has_value())
@@ -148,26 +151,13 @@ bool ProductRepository::update(const Product& product)
         {product.get_name(), product.get_category_id(), product.get_quantity(), product.get_minimum_quantity(), product.get_default_selling_price(), product.get_description(), product.get_id().value()}
     );
 }
+
 bool ProductRepository::remove(int id)
 {
     return database_.execute(
         "DELETE FROM products WHERE id = ?;",
         {id}
     );
-}
-bool ProductRepository::exists_by_name(const std::string& name)
-{
-    bool found = false;
-
-    database_.query(
-        "SELECT 1 FROM products WHERE name = ? LIMIT 1;",
-        {name},
-        [&found](sqlite3_stmt* /*stmt*/) {
-            found = true;
-        }
-    );
-
-    return found;
 }
 
 int ProductRepository::count(){
@@ -183,6 +173,7 @@ int ProductRepository::count(){
 
     return count;
 }
+
 int ProductRepository::count_by_category(int category_id){
     int count = 0;
 
@@ -196,6 +187,7 @@ int ProductRepository::count_by_category(int category_id){
 
     return count;
 }
+
 int ProductRepository::count_low_stock_products(){
     int count = 0;
 
@@ -209,6 +201,7 @@ int ProductRepository::count_low_stock_products(){
 
     return count;
 }
+
 int ProductRepository::count_out_of_stock_products(){
     int count = 0;
 
@@ -221,14 +214,6 @@ int ProductRepository::count_out_of_stock_products(){
     );
 
     return count;
-}
-
-bool ProductRepository::update_quantity(int id, int quantity)
-{
-    return database_.execute(
-        "UPDATE products SET quantity = ? WHERE id = ?;",
-        {quantity, id}
-    );
 }
 
 bool ProductRepository::update_default_selling_price(int id, double price)

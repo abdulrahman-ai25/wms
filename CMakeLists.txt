@@ -47,7 +47,7 @@ add_executable(${PROJECT_NAME}
 # --- Module: Repositories ---
 target_sources(${PROJECT_NAME} PRIVATE
     src/repositories/user_repository.cpp
-    src/repositories/prodcut_repository.cpp
+    src/repositories/product_repository.cpp
     src/repositories/category_repository.cpp
 )
 
@@ -63,6 +63,7 @@ src/services/auth_service.cpp
     src/services/session.cpp
     src/services/users_service.cpp
     src/services/category_service.cpp
+    src/services/product_service.cpp
     )
 
 # --- Module: TUI ---
@@ -71,6 +72,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/tui/auth_menu.cpp
     src/tui/users_menu.cpp
     src/tui/category_menu.cpp
+    src/tui/product_menu.cpp
 )
 
 # 4. Link Libraries
